@@ -1,0 +1,177 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4CAF50, #2196F3);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+h1 {
+    text-align: center;
+    color: #3F51B5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ced4da;
+    color: #333;
+    text-align: center;
+}
+
+th {
+    background-color: #1976D2;
+    color: #fff;
+}
+
+tfoot td {
+    font-weight: bold;
+}
+
+.table-container {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.table-scroll table {
+    width: calc(100% - 17px);
+}
+
+.table-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-scroll tfoot {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.table-footer {
+    background-color: #f8f9fa;
+}
+
+.reset-btn {
+    background-color: #F44336;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+}
+
+.reset-btn:hover {
+    background-color: #D32F2F;
+}
+
+.delete-btn {
+    background-color: #FF5722;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #E64A19;
+}
+
+.edit-btn {
+    background-color: #FFC107;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #FFA000;
+}
+
+.input-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-section label {
+    margin-bottom: 5px;
+    flex-basis: 100%;
+    color: #555;
+}
+
+.input-section input,
+.input-section button {
+    margin: 10px auto;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    width: calc(50% - 10px);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.input-section input[type="date"] {
+    padding: 6px;
+}
+
+.input-section input:focus,
+.input-section button:focus {
+    outline: none;
+    border-color: #2196F3;
+    box-shadow: 0 0 5px #2196F3;
+}
+
+.input-section button {
+    cursor: pointer;
+    background-color: #2196F3;
+    color: #fff;
+    border: 1px solid #2196F3;
+    font-size: 12px;
+}
+
+.input-section button:hover {
+    background-color: #1976D2;
+    border-color: #1976D2;
+}
+
+.expenses-income-list {
+    text-align: center;
+}
+
+.copyright {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000000;
+}

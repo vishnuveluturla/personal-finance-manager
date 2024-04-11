@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            text-align: center;
+            color: #3F51B5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ced4da;
+            color: #333;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1976D2;
+            color: #fff;
+        }
+
+        tfoot td {
+            font-weight: bold;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .table-scroll table {
+            width: calc(100% - 17px);
+        }
+
+        .table-scroll thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .table-scroll tfoot {
+            position: sticky;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        .table-footer {
+            background-color: #f8f9fa;
+        }
+
+        .reset-btn {
+            background-color: #F44336;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 100%;
+        }
+
+        .reset-btn:hover {
+            background-color: #D32F2F;
+        }
+
+        .delete-btn {
+            background-color: #FF5722;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #E64A19;
+        }
+
+        .edit-btn {
+            background-color: #FFC107;
+            color: #333;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background-color: #FFA000;
+        }
+
+        .input-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .input-section label {
+            margin-bottom: 5px;
+            flex-basis: 100%;
+            color: #555;
+        }
+
+        .input-section input,
+        .input-section button {
+            margin: 10px auto;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            width: calc(50% - 10px);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .input-section input[type="date"] {
+            padding: 6px;
+        }
+
+        .input-section input:focus,
+        .input-section button:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 5px #2196F3;
+        }
+
+        .input-section button {
+            cursor: pointer;
+            background-color: #2196F3;
+            color: #fff;
+            border: 1px solid #2196F3;
+            font-size: 12px;
+        }
+
+        .input-section button:hover {
+            background-color: #1976D2;
+            border-color: #1976D2;
+        }
+
+        .expenses-income-list {
+            text-align: center;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container welcome">
+        <h1>Personal Finance Manager</h1>
+        <div class="input-section">
+            <div>
+                <label for="name-input">Enter Name:</label>
+                <input type="text" id="name-input" placeholder="Enter name">
+            </div>
+            <div>
+                <label for="amount-input">Enter Amount:</label>
+                <input type="text" id="amount-input" placeholder="Enter amount">
+            </div>
+            <div>
+                <label for="date-input">Date:</label>
+                <input type="date" id="date-input">
+            </div>
+            <button id="add-btn">Add</button>
+        </div>
+        <div class="expenses-income-list">
+            <h2>Expenses / Income</h2>
+            <div class="table-container">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-table-body"></tbody>
+                        <tfoot class="table-footer">
+                            <tr>
+                                <td>Total:</td>
+                                <td id="total-amount"></td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <button id="reset-btn" class="reset-btn" onclick="resetData()">Reset</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">&copy; vishnuveluturla</div>
+    <script>
+        let expenses = [];
+        let totalAmount = 0;
+        const expenseTableBody = document.getElementById('expense-table-body');
+        const totalAmountCell = document.getElementById('total-amount');
+
+        if (localStorage.getItem('expenses')) {
+            expenses = JSON.parse(localStorage.getItem('expenses'));
+            updateExpensesList();
+        }
+
+        function updateExpensesList() {
+            expenseTableBody.innerHTML = '';
+            totalAmount = 0;
+            expenses.forEach((expense, index) => {
+                const newRow = expenseTableBody.insertRow();
+
+                const nameCell = newRow.insertCell();
+                const amountCell = newRow.insertCell();
+                const dateCell = newRow.insertCell();
+                const editCell = newRow.insertCell();
+                const deleteCell = newRow.insertCell();
+
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.classList.add('edit-btn');
+                editBtn.addEventListener('click', function () {
+                    let newAmount = prompt('Enter new amount:');
+                    if (newAmount !== null && newAmount.trim() !== '') {
+                        if (!newAmount.startsWith('+')) {
+                            newAmount = '+' + newAmount;
+                        }
+                        try {
+                            const oldAmount = expenses[index].amount;
+                            newAmount = eval(`(${oldAmount}) ${newAmount}`);
+                            if (!isNaN(newAmount)) {
+                                totalAmount = totalAmount - oldAmount + newAmount;
+                                totalAmountCell.textContent = totalAmount.toFixed(2);
+                                expenses[index].amount = parseFloat(newAmount);
+                                localStorage.setItem('expenses', JSON.stringify(expenses));
+                                updateExpensesList();
+                            } else {
+                                throw new Error('Invalid arithmetic expression');
+                            }
+                        } catch (error) {
+                            alert('Invalid input. Please enter a valid arithmetic expression.');
+                        }
+                    }
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', function () {
+                    const deletedAmount = expenses[index].amount;
+                    totalAmount -= deletedAmount;
+                    totalAmountCell.textContent = totalAmount.toFixed(2);
+                    expenses.splice(index, 1);
+                    localStorage.setItem('expenses', JSON.stringify(expenses));
+                    updateExpensesList();
+                });
+
+                nameCell.textContent = expense.name;
+                amountCell.textContent = expense.amount.toFixed(2);
+                dateCell.textContent = formatDate(expense.date);
+                editCell.appendChild(editBtn);
+                deleteCell.appendChild(deleteBtn);
+
+                totalAmount += expense.amount;
+                totalAmountCell.textContent = totalAmount.toFixed(2);
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'short' });
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+
+        function addExpense(name, amount, date) {
+            const existingExpenseIndex = expenses.findIndex(expense => expense.name.toLowerCase() === name.toLowerCase());
+            if (existingExpenseIndex !== -1) {
+                expenses[existingExpenseIndex].amount += parseFloat(amount);
+            } else {
+                expenses.push({ name, amount: parseFloat(amount), date });
+            }
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            updateExpensesList();
+        }
+
+        document.getElementById('add-btn').addEventListener('click', function () {
+            const name = document.getElementById('name-input').value.trim();
+            const amount = document.getElementById('amount-input').value.trim();
+            const date = document.getElementById('date-input').value.trim();
+
+            if (name === '' || amount === '' || date === '') {
+                alert('Please fill out all mandatory fields correctly');
+                return;
+            }
+
+            addExpense(name, amount, date);
+
+            document.getElementById('name-input').value = '';
+            document.getElementById('amount-input').value = '';
+            document.getElementById('date-input').value = '';
+        });
+
+        function resetData() {
+            localStorage.removeItem('expenses');
+            expenses = [];
+            totalAmount = 0;
+            totalAmountCell.textContent = '0.00';
+            updateExpensesList();
+        }
+    </script>
+</body>
+</html>
